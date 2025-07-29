@@ -49,13 +49,12 @@ public class UserProfileService {
         if (request.getFullName() != null) {
             user.setFullName(request.getFullName());
         }
-        // Temporarily commented out for database compatibility
-        // if (request.getBio() != null) {
-        //     user.setBio(request.getBio());
-        // }
-        // if (request.getStatus() != null) {
-        //     user.setStatus(request.getStatus());
-        // }
+        if (request.getBio() != null) {
+            user.setBio(request.getBio());
+        }
+        if (request.getStatus() != null) {
+            user.setStatus(request.getStatus());
+        }
         if (request.getAvatarUrl() != null) {
             user.setAvatarUrl(request.getAvatarUrl());
         }
@@ -79,9 +78,8 @@ public class UserProfileService {
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
         
-        // Temporarily commented out for database compatibility
-        // user.setIsOnline(isOnline);
-        // user.setLastSeen(LocalDateTime.now());
+        user.setIsOnline(isOnline);
+        user.setLastSeen(LocalDateTime.now());
         userRepository.save(user);
     }
     
@@ -93,12 +91,12 @@ public class UserProfileService {
             user.getPhone(),
             user.getEmail(),
             user.getAvatarUrl(),
-            null, // status - temporarily null
-            null, // bio - temporarily null
+            user.getStatus(),
+            user.getBio(),
             user.getCountry(),
             user.getIsVerified(),
-            false, // isOnline - temporarily false
-            null   // lastSeen - temporarily null
+            user.getIsOnline(),
+            user.getLastSeen() != null ? user.getLastSeen().toString() : null
         );
     }
 } 

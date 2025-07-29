@@ -47,18 +47,17 @@ public class User implements UserDetails {
     @Column
     private String avatarUrl;
     
-    // Temporarily commented out for database compatibility
-    // @Column(length = 500)
-    // private String bio;
+    @Column(length = 500)
+    private String bio;
     
-    // @Column(length = 50)
-    // private String status;
+    @Column(length = 50)
+    private String status;
     
-    // @Column(nullable = false)
-    // private Boolean isOnline = false;
+    @Column(nullable = false)
+    private Boolean isOnline = false;
     
-    // @Column
-    // private LocalDateTime lastSeen;
+    @Column
+    private LocalDateTime lastSeen;
     
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -70,7 +69,7 @@ public class User implements UserDetails {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        // lastSeen = LocalDateTime.now();
+        lastSeen = LocalDateTime.now();
     }
     
     @PreUpdate
