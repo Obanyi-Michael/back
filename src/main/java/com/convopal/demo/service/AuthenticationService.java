@@ -8,6 +8,7 @@ import com.convopal.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +77,46 @@ public class AuthenticationService {
         );
         
         // Generate tokens
+        String accessToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+        
+        return new AuthResponse(
+            accessToken,
+            refreshToken,
+            new AuthResponse.UserDto(
+                user.getId(),
+                user.getFullName(),
+                user.getUsername(),
+                user.getPhone(),
+                user.getEmail(),
+                user.getAvatarUrl(),
+                user.getIsVerified()
+            )
+        );
+    }
+    
+    public AuthResponse.UserDto getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        return new AuthResponse.UserDto(
+            user.getId(),
+            user.getFullName(),
+            user.getUsername(),
+            user.getPhone(),
+            user.getEmail(),
+            user.getAvatarUrl(),
+            user.getIsVerified()
+        );
+    }
+    
+    public AuthResponse refreshToken() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        // Generate new tokens
         String accessToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
         
