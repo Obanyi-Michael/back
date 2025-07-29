@@ -1,17 +1,14 @@
-# Use Maven + Java 17 image
-FROM maven:3.9.6-eclipse-temurin-17
+# Use a lightweight Java 17 image
+FROM eclipse-temurin:17-jdk
 
 # Set working directory
 WORKDIR /app
 
-# Copy project files
-COPY . .
+# Copy the built JAR from target folder
+COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
 
-# Build the app
-RUN mvn clean package -DskipTests
-
-# Expose app port
+# Expose the application port
 EXPOSE 8080
 
-# Run the built JAR
-CMD ["java", "-jar", "target/*.jar"]
+# Run the app
+ENTRYPOINT ["java", "-jar", "app.jar"]
