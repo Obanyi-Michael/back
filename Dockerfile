@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build the app
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Expose port
 EXPOSE 8080
