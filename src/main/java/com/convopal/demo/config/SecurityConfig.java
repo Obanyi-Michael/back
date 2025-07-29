@@ -63,6 +63,7 @@ public class SecurityConfig {
             .authorizeHttpRequests()
             .requestMatchers("/api/v1/auth/**").permitAll()
             .requestMatchers("/api/v1/profile/**").authenticated()
+            .requestMatchers("/api/v1/contacts/**").authenticated()
             .anyRequest().authenticated()
             .and()
             .sessionManagement()

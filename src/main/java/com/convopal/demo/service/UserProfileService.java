@@ -83,7 +83,7 @@ public class UserProfileService {
         userRepository.save(user);
     }
     
-    private UserProfileDto convertToDto(User user) {
+    public UserProfileDto convertToDto(User user) {
         return new UserProfileDto(
             user.getId(),
             user.getFullName(),
