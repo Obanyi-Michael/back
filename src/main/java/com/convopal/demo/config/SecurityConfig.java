@@ -62,6 +62,7 @@ public class SecurityConfig {
             .csrf().disable()
             .authorizeHttpRequests()
             .requestMatchers("/api/v1/auth/**").permitAll()
+            .requestMatchers("/api/v1/profile/**").authenticated()
             .anyRequest().authenticated()
             .and()
             .sessionManagement()
