@@ -17,6 +17,10 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     @Query("SELECT c FROM Contact c WHERE c.user = :user AND c.status = 'ACCEPTED'")
     List<Contact> findAcceptedContactsByUser(@Param("user") User user);
     
+    // Find all accepted contacts for a user (both as sender and receiver)
+    @Query("SELECT c FROM Contact c WHERE (c.user = :user OR c.contact = :user) AND c.status = 'ACCEPTED'")
+    List<Contact> findAcceptedContactsForUser(@Param("user") User user);
+    
     // Find all pending requests for a user
     @Query("SELECT c FROM Contact c WHERE c.contact = :user AND c.status = 'PENDING'")
     List<Contact> findPendingRequestsForUser(@Param("user") User user);

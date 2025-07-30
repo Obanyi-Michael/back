@@ -58,11 +58,22 @@ public class ContactService {
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
         
-        List<Contact> contacts = contactRepository.findAcceptedContactsByUser(user);
+        // Get all accepted contacts where user is either the sender or receiver
+        List<Contact> contacts = contactRepository.findAcceptedContactsForUser(user);
         
         return contacts.stream()
             .map(contact -> {
-                UserProfileDto contactProfile = userProfileService.convertToDto(contact.getContact());
+                // Determine which user is the contact (not the current user)
+                User contactUser;
+                if (contact.getUser().getId().equals(user.getId())) {
+                    // Current user is the sender, so contact is the receiver
+                    contactUser = contact.getContact();
+                } else {
+                    // Current user is the receiver, so contact is the sender
+                    contactUser = contact.getUser();
+                }
+                
+                UserProfileDto contactProfile = userProfileService.convertToDto(contactUser);
                 return ContactDto.fromContact(contact, contactProfile);
             })
             .collect(Collectors.toList());
