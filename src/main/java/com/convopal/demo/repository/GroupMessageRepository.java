@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public interface GroupMessageRepository extends JpaRepository<GroupMessage, Long
     long countUnreadMessagesForUser(@Param("groupId") Long groupId, @Param("user") User user);
     
     @Modifying
+    @Transactional
     @Query("UPDATE GroupMessage gm SET gm.isRead = true WHERE gm.group.id = :groupId AND gm.sender != :user")
     void markMessagesAsRead(@Param("groupId") Long groupId, @Param("user") User user);
     
