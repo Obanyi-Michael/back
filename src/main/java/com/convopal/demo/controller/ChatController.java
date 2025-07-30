@@ -19,7 +19,7 @@ public class ChatController {
     
     private final ChatService chatService;
     
-    @PostMapping("/send")
+    @PostMapping("/messages")
     public ResponseEntity<ApiResponse<MessageDto>> sendMessage(@Valid @RequestBody SendMessageRequest request) {
         try {
             MessageDto message = chatService.sendMessage(request);
@@ -42,7 +42,7 @@ public class ChatController {
         }
     }
     
-    @PostMapping("/mark-read/{username}")
+    @PostMapping("/messages/read/{username}")
     public ResponseEntity<ApiResponse<String>> markMessagesAsRead(@PathVariable String username) {
         try {
             chatService.markMessagesAsRead(username);
