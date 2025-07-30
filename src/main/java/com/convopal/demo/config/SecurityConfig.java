@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/profile/**").authenticated()
                 .requestMatchers("/api/v1/contacts/**").authenticated()
                 .requestMatchers("/api/v1/chat/**").authenticated()
+                .requestMatchers("/api/v1/groups/**").authenticated()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

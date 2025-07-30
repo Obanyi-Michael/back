@@ -111,6 +111,12 @@ public class AuthenticationService {
         );
     }
     
+    public User getCurrentUserEntity() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+    
     public AuthResponse refreshToken() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)

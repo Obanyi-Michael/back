@@ -65,8 +65,7 @@ public class UserProfileService {
     
     public List<UserProfileDto> searchUsers(String query) {
         // Search by username, full name, or phone
-        List<User> users = userRepository.findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrPhoneContaining(
-            query, query, query);
+        List<User> users = userRepository.findByUsernameContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrPhoneContaining(query);
         
         return users.stream()
             .map(this::convertToDto)
